@@ -71,7 +71,7 @@ chead :: [a] -> a
 chead (x : _) = x
 
 -- | function that acts as a description wrapper
-printExample desc act = do
+printExample (desc, act) = do
   putStr desc
   print act
 
@@ -79,16 +79,16 @@ printExample desc act = do
 preludeExamples = do
   let list = [1, 2, 3, 4, 5]
   print list
-  printExample "Head: " (head list) -- selects first element of list : 1
-  printExample "Tail: " (tail list) -- selects last elements of list : [2, 3, 4, 5]
-  printExample "2nd Element: " (list !! 2) -- selects n'th element from list : 3
-  printExample "First 3 Elements: " (take 3 list) -- selects first n elements from list : [1, 2, 3]
-  printExample "Remove First 3 Elements: " (drop 3 list) -- removes first n elements from list : [4, 5]
-  printExample "Length: " (length list) -- gets length of the list : 5
-  printExample "Sum: " (sum list) -- calculates the sum of the list
-  printExample "Product: " (product list) -- calculates product of list
-  printExample "Append List to [6, 7, 8]: " (list ++ [6, 7, 8]) -- appends two lists
-  printExample "Reverse: " (reverse list) -- reverses the list
+  printExample ("Head: ", head list) -- selects first element of list : 1
+  printExample ("Tail: ", tail list) -- selects last elements of list : [2, 3, 4, 5]
+  printExample ("2nd Element: ", list !! 2) -- selects n'th element from list : 3
+  printExample ("First 3 Elements: ", take 3 list) -- selects first n elements from list : [1, 2, 3]
+  printExample ("Remove First 3 Elements: ", drop 3 list) -- removes first n elements from list : [4, 5]
+  printExample ("Length: ", length list) -- gets length of the list : 5
+  printExample ("Sum: ", sum list) -- calculates the sum of the list
+  printExample ("Product: ", product list) -- calculates product of list
+  printExample ("Append List to [6, 7, 8]: ", list ++ [6, 7, 8]) -- appends two lists
+  printExample ("Reverse: ", reverse list) -- reverses the list
 
 ------------------------
 -- LAMBDA EXPRESSIONS --
@@ -109,4 +109,27 @@ odds n = map (\x -> x * 2 + 1) [0 .. n -1] -- map applies a function to all elem
 -- OPERATORS --
 ---------------
 
--- TODO
+operatorExamples = do
+  printExample ("7 / 2: ", 7 / 2) -- using division symbol
+  -- or
+  printExample ("7 'div' 2: ", 7 `div` 2) -- using `div`
+  printExample ("1 + 2: ", 1 + 2)
+  -- or
+  printExample ("(+) 1 2: ", (+) 1 2)
+  -- or
+  printExample ("(1+) 2: ", (1 +) 2)
+  -- or
+  printExample ("(+2) 1: ", (+ 2) 1)
+
+-- | Standard operator definition
+
+-- | Simple operator functions
+-- The @ signifies a codeblock to the documentation generator Haddock
+-- @
+-- (+) :: Int -> Int -> Int
+-- (+) = \x -> (\y -> x + y) -- addition
+-- (1+) = \y -> 1+y          -- successor
+-- (1/) = \y -> 1/y          -- reciprocation
+-- (*2) = \x -> x*2          -- doubling
+-- (/2) = \x -> x/2          -- halving
+-- @
