@@ -8,9 +8,6 @@
 ---------------------------------------
 -- NO TABS (could mess with compiler) -
 
-main = do
-  preludeExamples
-
 ----------------------
 -- RANDOM FUNCTIONS --
 ----------------------
@@ -56,11 +53,7 @@ _ && _ = False -- since anything other than True True will output False (wildcar
 testFront :: [Char] -> Bool
 testFront ('a' : _) = True -- wildcard underscore signifies we don't care about the other list values
 
--- | various different declarations for lists
-listsRepresentations = do
-  print ([1, 2, 3])
-  print (1 : (2 : (3 : [])))
-  print (1 : 2 : 3 : [])
+
 
 -----------------------
 -- PRELUDE FUNCTIONS --
@@ -71,35 +64,45 @@ chead :: [a] -> a
 chead (x : _) = x
 
 -- | function that acts as a description wrapper
-printExample (desc, act) = do
-  putStr desc
+printExample (code, act) = do
+  putStr "Code: "
+  putStrLn code
+  putStr "Output: "
   print act
 
 -- | function that runs through various prelude library functions
 preludeExamples = do
+  putStrLn "________________"
+  putStrLn "PRELUDE EXAMPLES"
+  putStrLn "________________"
   let list = [1, 2, 3, 4, 5]
+  putStr "let list = "
   print list
-  printExample ("Head: ", head list) -- selects first element of list : 1
-  printExample ("Tail: ", tail list) -- selects last elements of list : [2, 3, 4, 5]
-  printExample ("2nd Element: ", list !! 2) -- selects n'th element from list : 3
-  printExample ("First 3 Elements: ", take 3 list) -- selects first n elements from list : [1, 2, 3]
-  printExample ("Remove First 3 Elements: ", drop 3 list) -- removes first n elements from list : [4, 5]
-  printExample ("Length: ", length list) -- gets length of the list : 5
-  printExample ("Sum: ", sum list) -- calculates the sum of the list
-  printExample ("Product: ", product list) -- calculates product of list
-  printExample ("Append List to [6, 7, 8]: ", list ++ [6, 7, 8]) -- appends two lists
-  printExample ("Reverse: ", reverse list) -- reverses the list
+  printExample ("head list", head list) -- selects first element of list : 1
+  printExample ("tail list", tail list) -- selects last elements of list : [2, 3, 4, 5]
+  printExample ("list !! 2", list !! 2) -- selects n'th element from list : 3
+  printExample ("take 3 list", take 3 list) -- selects first n elements from list : [1, 2, 3]
+  printExample ("drop 3 list", drop 3 list) -- removes first n elements from list : [4, 5]
+  printExample ("length list", length list) -- gets length of the list : 5
+  printExample ("sum list", sum list) -- calculates the sum of the list
+  printExample ("product list", product list) -- calculates product of list
+  printExample ("list ++ [6, 7, 8]", list ++ [6, 7, 8]) -- appends two lists
+  printExample ("reverse list", reverse list) -- reverses the list
+  printExample ("zip list [6,7,8,9,10]", zip list [6,7,8,9,10])
 
 ------------------------
 -- LAMBDA EXPRESSIONS --
 ------------------------
 
 lambdaExamples = do
-  print ((\x -> x ** 2) 2) -- Raises to power of 2
-  print ((\x -> x `mod` 2 == 0) 2) -- Checks if number is even
-  print ((\x y -> x + y) 2 3) -- Add two numbers together
+  putStrLn "---------------"
+  putStrLn "LAMBDA EXAMPLES"
+  putStrLn "---------------"
+  printExample ("(\\x -> x ** 2) 2", (\x -> x ** 2) 2) -- Raises to power of 2
+  printExample ("(\\x -> x `mod` 2 == 0) 2", (\x -> x `mod` 2 == 0) 2) -- Checks if number is even
+  printExample ("(\\x y -> x + y) 2 3", (\x y -> x + y) 2 3) -- Add two numbers together
   -- or
-  print ((\x -> (\y -> x + y) 3) 2) -- Add two numbers together (alternative)
+  printExample ("(\\x -> (\\y -> x + y) 3) 2", (\x -> (\y -> x + y) 3) 2) -- Add two numbers together (alternative)
 
 -- | function that returns first n odd integers
 odds :: Int -> [Int]
@@ -110,6 +113,9 @@ odds n = map (\x -> x * 2 + 1) [0 .. n -1] -- map applies a function to all elem
 ---------------
 
 operatorExamples = do
+  putStrLn "-----------------"
+  putStrLn "OPERATOR EXAMPLES"
+  putStrLn "-----------------"
   printExample ("7 / 2: ", 7 / 2) -- using division symbol
   -- or
   printExample ("7 'div' 2: ", 7 `div` 2) -- using `div`
@@ -121,8 +127,6 @@ operatorExamples = do
   -- or
   printExample ("(+2) 1: ", (+ 2) 1)
 
--- | Standard operator definition
-
 -- | Simple operator functions
 -- The @ signifies a codeblock to the documentation generator Haddock
 -- @
@@ -133,3 +137,19 @@ operatorExamples = do
 -- (*2) = \x -> x*2          -- doubling
 -- (/2) = \x -> x/2          -- halving
 -- @
+
+-------------------------
+-- LIST COMPREHENSIONS --
+-------------------------
+
+listCompExamples = do
+  putStrLn "---------------------------"
+  putStrLn "LIST COMPREHENSION EXAMPLES"
+  putStrLn "---------------------------"
+  printExample ("[1, 2, 3]", [1, 2, 3])
+  printExample ("1 : (2 : (3 : []))", 1 : (2 : (3 : [])))
+  printExample ("1 : 2 : 3 : []", 1 : 2 : 3 : [])
+  printExample ("[x^2 | x <- [1..5]]", [x ^ 2 | x <- [1 .. 5]])
+  printExample ("[(x,y) | x <- [1,2,3], y <- [4,5]]", [(x, y) | x <- [1, 2, 3], y <- [4, 5]])
+  printExample ("[x | x <- [1..10], even x]", [x | x <- [1 .. 10], even x])
+  printExample ("[x | x <- [14, 24,-10, 15,-42,31,3,1], x < 15]", [x | x <- [14, 24, -10, 15, -42, 31, 3, 1], x < 15])
